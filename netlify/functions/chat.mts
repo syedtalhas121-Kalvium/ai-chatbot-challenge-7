@@ -1,5 +1,33 @@
+import https from 'node:https';
+
 const json = (body: Record<string, unknown>, status = 200) =>
   Response.json(body, { status });
+
+const requestProvider = (payload: string, apiKey: string) =>
+  new Promise<{ statusCode?: number; body: string }>((resolve, reject) => {
+    const providerRequest = https.request('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${apiKey}`,
+        'content-type': 'application/json',
+        'content-length': Buffer.byteLength(payload),
+        'http-referer': process.env.APP_URL || 'https://luminous-capybara-6701b3.netlify.app',
+        'x-title': 'AI Chatbot Challenge'
+      }
+    }, (providerResponse) => {
+      let responseBody = '';
+      providerResponse.setEncoding('utf8');
+      providerResponse.on('data', (chunk) => { responseBody += chunk; });
+      providerResponse.on('end', () => resolve({
+        statusCode: providerResponse.statusCode,
+        body: responseBody
+      }));
+    });
+
+    providerRequest.on('error', reject);
+    providerRequest.write(payload);
+    providerRequest.end();
+  });
 
 export default async (request: Request) => {
   if (request.method !== 'POST') {
@@ -41,24 +69,20 @@ export default async (request: Request) => {
   }
 
   try {
-    const providerHeaders = new Headers({
-      Authorization: `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': process.env.APP_URL || 'https://luminous-capybara-6701b3.netlify.app',
-      'X-Title': 'AI Chatbot Challenge'
+    const payload = JSON.stringify({
+      model: 'openai/gpt-4o-mini',
+      messages
     });
+    const providerResponse = await requestProvider(payload, apiKey);
+    let data: { error?: { message?: string }; choices?: Array<{ message?: { content?: string } }> };
 
-    const providerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: providerHeaders,
-      body: JSON.stringify({
-        model: 'openai/gpt-4o-mini',
-        messages
-      })
-    });
+    try {
+      data = JSON.parse(providerResponse.body);
+    } catch {
+      return json({ error: 'The AI provider returned an invalid response.' }, 502);
+    }
 
-    const data = await providerResponse.json();
-    if (!providerResponse.ok) {
+    if (!providerResponse.statusCode || providerResponse.statusCode < 200 || providerResponse.statusCode >= 300) {
       return json({
         error: data?.error?.message || 'The AI provider returned an error.'
       }, 502);
