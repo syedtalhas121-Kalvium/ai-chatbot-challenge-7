@@ -1,3 +1,9 @@
-node_modules
+node_modules/
+.netlify/
 .env
 .DS_Store
+
+# Local recording artifacts
+*.webm
+*.mp4
+*.mov
