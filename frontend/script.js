@@ -7,7 +7,7 @@ const sendBtn = document.getElementById('sendBtn');
 
 const API_URL = window.location.protocol === 'file:' || window.location.hostname === 'localhost'
     ? 'http://localhost:3000/chat'
-    : '/chat';
+    : 'https://3100-ify93w2qqs7otlnu86oqz-f58be2ee.sg1.manus.computer/chat';
 
 function renderMessage(role, content) {
     const messageDiv = document.createElement('div');

@@ -4,7 +4,7 @@
 
 This project is a minimal, fully functional AI chatbot with a vanilla JavaScript frontend and a Node.js Express backend. The browser stores the current conversation in memory, sends the complete message history to the backend, and renders the assistant response returned by the AI provider.
 
-For the public deployment, the same frontend is served by Netlify and `/chat` is handled by a Netlify serverless function. The original Express server remains available for local development and uses the same request and response contract.
+For the public deployment, the frontend is served by Netlify and calls the public Express backend URL below. The Netlify serverless function is also included as a production-ready same-origin option; the Express backend is used for the current live demonstration because the hosted function’s outbound request path does not preserve the OpenRouter authorization header.
 
 ## API and Model
 
@@ -34,9 +34,9 @@ PORT=3000
 ## Live Deployment
 
 **Frontend:** https://luminous-capybara-6701b3.netlify.app  
-**Backend:** https://luminous-capybara-6701b3.netlify.app/chat  
+**Backend:** https://3100-ify93w2qqs7otlnu86oqz-f58be2ee.sg1.manus.computer/chat  
 
-The deployed frontend uses the backend route at `/chat`, so the browser never calls OpenRouter directly.
+The deployed frontend calls the public Express `/chat` endpoint above, so the browser never calls OpenRouter directly. The backend process is running in the current task environment and the URL is temporary.
 
 ## Running Locally
 
