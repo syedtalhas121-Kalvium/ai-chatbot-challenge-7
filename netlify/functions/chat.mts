@@ -41,14 +41,16 @@ export default async (request: Request) => {
   }
 
   try {
+    const providerHeaders = new Headers({
+      Authorization: `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': process.env.APP_URL || 'https://luminous-capybara-6701b3.netlify.app',
+      'X-Title': 'AI Chatbot Challenge'
+    });
+
     const providerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
-      headers: {
-        authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': process.env.APP_URL || 'https://luminous-capybara-6701b3.netlify.app',
-        'X-Title': 'AI Chatbot Challenge'
-      },
+      headers: providerHeaders,
       body: JSON.stringify({
         model: 'openai/gpt-4o-mini',
         messages
