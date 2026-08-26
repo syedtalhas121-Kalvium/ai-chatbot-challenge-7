@@ -64,5 +64,5 @@ Open `frontend/index.html` directly in a browser or serve the `frontend/` direct
 
 ## Submission
 
-1. GitHub pull request: to be added after the public repository branch is pushed.
-2. Google Drive video: to be added after the walkthrough recording is uploaded with link sharing enabled.
+1. GitHub pull request: https://github.com/syedtalhas121-Kalvium/ai-chatbot-challenge-7/pull/1
+2. Google Drive walkthrough video: https://drive.google.com/file/d/1sejaMuIS1WWEJQLUxI7oPMzcNFEAYrij/view?usp=drivesdk
