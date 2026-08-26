@@ -44,7 +44,7 @@ export default async (request: Request) => {
     const providerResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
         'HTTP-Referer': process.env.APP_URL || 'https://luminous-capybara-6701b3.netlify.app',
         'X-Title': 'AI Chatbot Challenge'
