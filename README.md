@@ -21,7 +21,7 @@ The frontend appends each user message and each assistant response to one `messa
 
 ## Security and Configuration
 
-The API key is read only from `process.env.OPENROUTER_API_KEY` in the Express backend or `Netlify.env.get('OPENROUTER_API_KEY')` in the deployed serverless function. No real key is committed to the repository. The local `backend/.env` file is ignored by Git, while `backend/.env.example` documents the required configuration.
+The API key is read only from `process.env.OPENROUTER_API_KEY` in both the Express backend and the deployed serverless function. No real key is committed to the repository. The local `backend/.env` file is ignored by Git, while `backend/.env.example` documents the required configuration.
 
 Required environment variables:
 

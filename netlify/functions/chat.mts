@@ -36,7 +36,7 @@ export default async (request: Request) => {
     }, 400);
   }
 
-  const apiKey = Netlify.env.get('OPENROUTER_API_KEY');
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
     return json({
       error: 'The chatbot is not configured yet. Add OPENROUTER_API_KEY to the site environment.'
@@ -49,7 +49,7 @@ export default async (request: Request) => {
       headers: {
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
-        'HTTP-Referer': Netlify.env.get('APP_URL') || 'https://ai-chatbot-challenge.netlify.app',
+        'HTTP-Referer': process.env.APP_URL || 'https://luminous-capybara-6701b3.netlify.app',
         'X-Title': 'AI Chatbot Challenge'
       },
       body: JSON.stringify({
